@@ -11,6 +11,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
       - ./backups:/backups
+    networks:
+      - player-stats-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -20,3 +22,7 @@ services:
 volumes:
   postgres_data:
     driver: local
+
+networks:
+  player-stats-network:
+    external: true
