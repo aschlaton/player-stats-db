@@ -1,0 +1,13 @@
+.env
+
+data/
+pgdata/
+
+*.sql.backup
+*.dump
+
+# ignore backup files but keep the directory
+backups/*
+!backups/.gitkeep
+
+.DS_Store
