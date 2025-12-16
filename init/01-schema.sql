@@ -57,3 +57,65 @@ CREATE TRIGGER update_player_box_scores_updated_at
     BEFORE UPDATE ON player_box_scores
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
+
+-- Create view without metadata
+CREATE OR REPLACE VIEW player_box_scores_view AS
+SELECT
+    player_id,
+    game_id,
+    team_id,
+    player,
+    team,
+    match_up,
+    game_date,
+    season,
+    w_l,
+    min,
+    pts,
+    fgm,
+    fga,
+    fg_percent,
+    three_pm,
+    three_pa,
+    three_p_percent,
+    ftm,
+    fta,
+    ft_percent,
+    oreb,
+    dreb,
+    reb,
+    ast,
+    stl,
+    blk,
+    tov,
+    pf,
+    plus_minus,
+    fp
+FROM player_box_scores;
+
+-- Players table
+CREATE TABLE IF NOT EXISTS players (
+    id SERIAL PRIMARY KEY,
+    player_id VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    team VARCHAR(100),
+    number INTEGER,
+    position VARCHAR(50),
+    height VARCHAR(20),
+    weight VARCHAR(50),
+    college VARCHAR(255),
+    country VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create indexes for players table
+CREATE INDEX idx_players_player_id ON players(player_id);
+CREATE INDEX idx_players_team ON players(team);
+CREATE INDEX idx_players_name ON players(name);
+
+-- Trigger for players updated_at
+CREATE TRIGGER update_players_updated_at
+    BEFORE UPDATE ON players
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
